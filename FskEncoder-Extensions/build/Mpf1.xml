@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="build all" name="Mpf1">
+
+	<include file="../BuildSupport.xml" />
+	
+	<property name="targetName" 		value="${ant.project.name}" />
+	
+	<property name="dir.scriptsRepo"	value="${dir.defaultsRepo}/${targetName}/scripts" />
+	<property name="dir.configRepo"		value="${dir.defaultsRepo}/${targetName}/cfg" />
+
+	<property name="stream" value="0"/>
+	
+	<property name="version" value="${main.line}.${stream}"/>
+	
+	
+	<target name="build all">
+		
+		<tstamp>
+			<format property="current.time" pattern="yyyy.MM.dd HH:mm:ss" />
+		</tstamp>
+
+		<echo message="${current.time}" />      
+		
+		<antcall target="${targetName}" />
+		<antcall target="copy config" />
+		<antcall target="pack distri" />
+
+	</target>
+		
+	<target name="Mpf1">
+		
+		<mkManifest 
+			location="${dir.defaultsRepo}/${targetName}" 
+			version="${version}" 
+			timestamp="${current.time}" 
+		/>
+		
+		<delete file="${dir.extensions}/${targetName}.jar" />
+		
+		<jar destfile="${dir.extensions}/${targetName}.jar" 
+			manifest="${dir.defaultsRepo}/${targetName}/MANIFEST.MF"
+		>
+						
+		<fileset dir="${dir.classesRoot}" casesensitive="yes">
+			<include name="**/target/microprofessor1/*"/>
+		</fileset>
+			
+		</jar>
+
+	</target>
+	
+	
+	<target name="copy config" >
+		
+	</target>
+	
+	
+	<target name="pack distri">
+		
+			<delete file="${dir.dist}/${targetName}.zip" />
+			
+			<zip destfile="${dir.dist}/${targetName}.zip"
+				basedir="${dir.dist}"
+				includes="extensions/${targetName}.jar"
+			/>
+			
+	</target>
+	
+
+</project>

@@ -1,0 +1,98 @@
+
+
+ckl   1 0  1 0  1 0  1 0  1 0  1 0  1 0  1 0  1 0  1 0     1 0  1 0  1 0  1 0  1 0  1 0  1 0  1 0  1 0  1 0
+data  1 1  0 0  1 1  0 0  0 0  1 1  1 1  1 1  0 0  1 1     0 0  0 0  1 1  0 0  1 1  1 1  0 0  1 1  1 1  0 0
+------------------------------------------------------     ------------------------------------------------
+rslt  1 0  0 1  1 0  0 1  0 1  1 0  1 0  1 0  0 1  1 0     0 1  0 1  1 0  0 1  1 0  1 0  0 1  1 0  1 0  0 1
+l     I    0    1    0    1    1    0    0    0    1       I    1    1    0    1    0    0    1    0    0
+
+smpl  4 -  8 -  8 -  8 4  4 4  4 4  4 4  4 -  8 -  8 4     4 4  4 -  8 -  8 -  8 4  4 -  8 -  8 4  4 -  8 4
+r     1 0  1 0  1 0  1 0  1 0  1 0  1 0  1 0  1 0  1 0     1 0  1 0  1 0  1 0  1 0  1 0  1 0  1 0  1 0  1 0
+
+Manchester format
+================================================================================
+
+
+
+Bit format (inversed format is also possible!)
+--------------------------------------------------------------------------------
+
+'0'      X¯|_X
+
+
+'1'       X_|¯X
+
+
+
+'00'      ¯|_|¯|_
+      
+'01'      ¯|_ _|¯
+      
+'10'      _|¯ ¯|_
+      
+'11'      _|¯|_|¯
+
+
+
+
+Envelope (Byte format)
+--------------------------------------------------------------------------------
+
+  t.b.d
+  
+
+
+File format
+--------------------------------------------------------------------------------
+
+  t.b.d
+  
+
+
+
+Algorithm
+--------------------------------------------------------------------------------
+
+Encoding is the process of adding the correct transitions to the message signal 
+in relation to the data that is to be sent over the communication system. 
+
+The first step is to establish the data rate that is going to be used. 
+Once this is fixed, then the mid-bit time can be determined as Â½ of the data 
+rate period. 
+
+In our example we are going to use a data rate of 4kHz. This provides a 
+bit period of 1/f = 1/4000 = 0.00025s or 250Âµs.  Dividing by two gives us the 
+mid-bit time (which we will label â€œTâ€�) of 125Âµs. 
+
+Now let's look at how we use this to encode a data byte of 0xC5 (11000101b). 
+
+The easiest method to do this is to use a timer set to expire or interrupt at 
+the T interval.  We also need to set up a method to track which Â½ bit period we 
+are currently sending.  Once we do this, we can easily encode the data and 
+output the message signal.
+
+
+Implementation of Manchester Encoding
+  1. Begin with the output signal high.
+  2. Check if all bits have been sent, If yes, then go to step 7
+  3. Check the next logical bit to be coded
+  4. If the bit equals â€œ1â€�, then call ManchesterOne(T)
+  5. Else call ManchesterZero(T)
+  6. Return to step 2
+  7. Set output signal high and return
+
+
+Implementation of ManchesterOne(T)
+  1. Set the output signal low
+  2. Wait for mid-bit time (T)
+  3. Set the output signal high
+  4. Wait for mid-bit time (T)
+  5. Return
+
+
+Implementation of ManchesterZero(T)
+  1. Set the output signal high
+  2. Wait for mid-bit time (T)
+  3. Set the output signal low
+  4. Wait for mid-bit time (T)
+  5. Return

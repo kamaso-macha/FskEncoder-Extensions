@@ -1,0 +1,25 @@
+MPF-1 Memory Map
+================
+
+
+0000    IC 6    2k      2516      Monitor
+07FF                    or
+0800
+0FFF            4k      2532      Monitor extention
+
+1000                              not decoded
+17FF
+
+1800    IC 8    2k      6116      User RAM
+1F8F                              
+1F90                              System RAM
+1FFF
+
+2000    IC 7    2k      6116      User RAM extention
+27FF            2k      2716      or user ROM extention
+2FFF            4k      2732      or user ROM extention
+
+3000                              not decoded
+FFFF
+
+

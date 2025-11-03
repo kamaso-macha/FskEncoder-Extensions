@@ -1,0 +1,20 @@
+Z80 Trainer:
+  define physically availabel USER RAM in the properties and check in the protocoll
+  against that values.
+  
+  No data should be loaded into SYSTEM or unavailable memory!
+
+Z80 Trainer:
+  Allow split block upload:
+    A IHX8 file can contain different memory blocks defined by several 'org' statements in the source file.
+    E.g. 
+      1000 - 17FF,
+      2000 - 27FF,
+      ...
+    
+    These memory blocks should be loaded up as different upload actions but triggered
+    by only ONE user interaction.
+
+
+    
+  

@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="build distribution" name="Build Distribution">
+     
+	<taskdef resource="net/sf/antcontrib/antlib.xml">
+	  <classpath>
+	    <pathelement location="C:/Users/Stefan/.p2/pool/plugins/ant-contrib-1.0b3-bin/ant-contrib/ant-contrib-1.0b3.jar"/>
+	  </classpath>
+	</taskdef>
+	
+	<include file="BuildSupport.xml" />
+
+	<target name="build distribution" description="">
+		
+		<antcall target="clean" />
+		<antcall target="bild all" />
+		<antcall target="pack distri" />
+		
+	</target>
+	
+	
+	<target name="clean" description="Deletes ALL files and folders in the 'dist' directory" >
+		
+		<delete>
+			<fileset dir="${dir.dist}" includes="*.zip" />
+		</delete>
+				
+		<renewDir candidate="bin" />
+		<renewDir candidate="cfg" />
+		<renewDir candidate="extensions" />
+		<renewDir candidate="lib" />
+		
+	</target>
+	
+	
+	<target name="bild all" description="Build the main application and all extensions" >
+		
+		<tstamp>
+			<format property="current.time" pattern="yyyy.MM.dd HH:mm:ss" />
+		</tstamp>
+
+		<echo message="${current.time}" />      
+		
+		<for param="file">
+			
+			<path>
+				<fileset dir="./build" includes="*.xml" excludes="*Template.*"/>
+			</path>
+
+			<sequential>
+			
+				<local name="name"/>
+				<basename file="@{file}" property="name" />
+				
+				<echo message=" Calling 'build all' of @{file}"/>
+				<ant antfile="@{file}" target="build all"/>
+				
+			</sequential>
+			
+		</for>     
+
+	</target>
+
+	
+	<target name="pack distri" depends="bild all" description="Packes all files and folders in a ZIP container. Depends on 'build all'">
+		
+		<property name="target" value="${projectname}-dist" />
+	
+		<delete file="${dir.dist}/${target}.zip" failonerror="no" />
+		
+		<zip destfile="${dir.dist}/${target}.zip"
+			basedir="${dir.dist}"
+			excludes="*.zip"
+		/>
+		
+	</target>
+	
+	
+	<macrodef name="renewDir">
+		<attribute name="candidate"/>
+		
+		<sequential>
+			
+			<echo message="candidate = ${dir.dist}/@{candidate}" />
+		
+	        <delete dir="${dir.dist}/@{candidate}" failonerror="no" />
+	        <mkdir dir="${dir.dist}/@{candidate}"/>
+			
+		</sequential>
+		
+	</macrodef>
+
+
+</project>

@@ -1,0 +1,23 @@
+Intel HEX file format
+---------------------
+
+
+https://de.wikipedia.org/wiki/Intel_HEX
+https://en.wikipedia.org/wiki/Intel_HEX
+
+https://developer.arm.com/documentation/ka003292/latest/
+
+https://www.rfc-editor.org/ien/ien137.txt
+https://en.wikipedia.org/wiki/Endianness
+
+https://en.wikipedia.org/wiki/Binary-to-text_encoding
+
+
+
+
+
+
+
+
+
+

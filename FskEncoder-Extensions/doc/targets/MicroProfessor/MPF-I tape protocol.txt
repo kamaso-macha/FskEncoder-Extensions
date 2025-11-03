@@ -1,0 +1,119 @@
+MPF-I tape format
+================================================================================
+
+
+
+Bit format
+--------------------------------------------------------------------------------
+
+'0'     8 cycles 2000Hz   ( 8 * 0,5 ms = 4 ms )
+      + 2 cycles 1000Hz   ( 2 * 1,0 ms = 2 ms )
+      
+      |                               ^           |
+     _|¯|_|¯|_|¯|_|¯|_|¯|_|¯|_|¯|_|¯|_|¯¯|__|¯¯|__|¯
+      |0   1   2   3   4   5   6   7   0     1    | 
+
+        
+'1'     4 cycles 2000Hz   ( 4 * 0,5 ms = 2 ms )
+      + 4 cycles 1000Hz   ( 4 * 1,0 ms = 4 ms )
+      
+      |               ^                       |
+     _|¯|_|¯|_|¯|_|¯|_|¯¯|__|¯¯|__|¯¯|__|¯¯|__|¯
+      |0   1   2   3   0     1     2     3    | 
+
+
+  1 bit equals 6ms
+
+
+
+Envelope (Byte format)
+--------------------------------------------------------------------------------
+
+  1 start bit '0'
+  8 data bits, lsb first (b0 to b7)
+  1 stop bit '1'
+
+
+
+File format
+--------------------------------------------------------------------------------
+
+1.    4000 cycles 1000Hz Lead sync
+
+2.    2 envlp   filename
+3.    2 envlp   starting address
+4.    2 envlp   ending address
+
+5.    1 envlp   checksum of datablock start adr to end adr
+
+6.    4000 cycles 2000Hz Mid sync
+
+7.    n envlp   datablock
+
+8.    4000 cycles 2000Hz Tail sync
+
+
+
+
+Excerpt from source code
+--------------------------------------------------------------------------------
+
+00d0    setst0
+
+00de    main
+
+01e8    kwt       ; write tape
+        krt       ; read tape
+
+; entry point
+0324    gwt       ; go write tape
+
+0354    grt       ; go read tape
+
+03b0    branch    ; branch ho handler function
+
+043a    stepdp    ; display parameter
+
+
+
+
+053d    sum       ; calculate sum of n bytes
+
+054d    tapein    ; read from tape
+
+055a    getbyte   ; read a byte from tape
+
+056b    getbit    ; read a single bit from tape
+
+05a7    tapeout   ; write to tape
+
+05b1    outbyte   ; write a byte to tape
+
+05c4    outbit    ; write a single bit to tape
+
+
+
+
+05fe    scan      ; keyboard
+
+0737    ksubfun   ; key branch table
+                  ; base 011b
+
+0741    kfun      ; function branch table
+                  ; base 01c2
+                  
+076f    gtab      ; GO function dispatcher
+                  ; base 0299
+                  ; WT defb 8b -> 0324
+                  ; RT defb c1 -> 0354
+
+
+;--------------------------------------------------
+
+k11     defb  1fh     ; taperd
+k16     defb  12h     ; go
+k17     defb  1fl     ; tapewr
+
+
+
+

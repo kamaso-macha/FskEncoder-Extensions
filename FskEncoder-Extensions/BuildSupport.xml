@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project name="Build.proerties">
+
+	<property name="dir.mavenRepo"		value="C:/Users/Stefan/.m2/repository" />
+	
+	<property name="dir.projectRoot"	value="H:/Git_repository/fskEncoder/FskEncoder-Extensions" />
+
+	<property name="dir.defaultsRepo"	value="${dir.projectRoot}/defaults" />
+
+	<property name="dir.classesRoot"	value="${dir.projectRoot}/target/classes"/>
+	<property name="dir.dist"			value="${dir.projectRoot}/dist" />
+	<property name="dir.extensions"		value="${dir.dist}/extensions" />
+
+	<property name="main.line"			value="1" />
+
+    <basename property="projectname"	file="${basedir}"/>
+	
+	<macrodef name="replaceLibrary" >
+		
+		<attribute name="sourcePath"/>
+		<attribute name="fileName"/>
+		
+		<sequential>
+		
+			<replaceFile sourcePath="@{sourcePath}" destPath="${dir.dist}/lib/" fileName="@{fileName}" />
+		
+		</sequential>
+	
+	</macrodef>
+
+
+	<macrodef name="replaceConfig" >
+		
+		<attribute name="sourcePath"/>
+		<attribute name="fileName"/>
+		
+		<sequential>
+		
+			<echo message="candidate: @{sourcePath}/@{fileName}"/>
+
+			<replaceFile sourcePath="@{sourcePath}" destPath="${dir.dist}/cfg/" fileName="@{fileName}" />
+		
+		</sequential>
+	
+	</macrodef>
+
+
+	<macrodef name="replaceFile" >
+		
+		<attribute name="sourcePath"/>
+		<attribute name="destPath" />
+		<attribute name="fileName"/>
+		
+		<sequential>
+		
+			<echo message="candidate: @{sourcePath}/@{fileName} -> @{destPath}"/>
+			
+			<delete file="@{destPath}/@{fileName}" failonerror="no" />
+	        <copy file="@{sourcePath}/@{fileName}" 	todir="@{destPath}"/>
+		
+		</sequential>
+	
+	</macrodef>
+	
+	
+	<macrodef name="mkManifest" >
+		
+		<attribute name="location" />
+		<attribute name="version" />
+		<attribute name="timestamp" />
+		
+		<sequential>
+		
+			 <script language="javascript">
+			  arr = project.getProperty('version').split('.');
+			  project.setProperty('line', arr[0]);
+			  project.setProperty('stream', arr[1]);
+			 </script>
+
+			<buildnumber file="@{location}/build.number"/>
+
+			<echo message="Candidate = @{location}, Version = @{version}" />
+			
+			<delete file="@{location}/MANIFEST.MF" />
+	
+			<manifest file="@{location}/MANIFEST.MF">
+		        <attribute name="Manifest-Version" 	value="1.0"/>
+		        <attribute name="Built-By" 			value="${user.name}"/>
+		        <attribute name="Project" 			value="${projectname}"/>
+		        <attribute name="Modul" 			value="${targetName}"/>
+				<attribute name="Main-Line"			value="${line}"/>
+				<attribute name="Stream"			value="${stream}"/>
+		        <attribute name="Version" 			value="${build.number}"/>
+		        <attribute name="Build" 			value="@{version}-${build.number}"/>
+		        <attribute name="Build-Date" 		value="@{timestamp}"/>
+		    </manifest>
+		
+		</sequential>
+		
+	</macrodef>
+
+</project>

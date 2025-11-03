@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="build all" name="_extension_name_">
+
+	<include file="../BuildSupport.xml" />
+	
+	<property name="targetName" 		value="${ant.project.name}" />
+	
+	<property name="dir.scriptsRepo"	value="${dir.defaultsRepo}/${targetName}/scripts" />
+	<property name="dir.configRepo"		value="${dir.defaultsRepo}/${targetName}/cfg" />
+
+	<property name="stream" value="_stream_"/>
+	<property name="version" value="${main.line}.${stream}"/>
+
+	
+	<tstamp>
+		<format property="current.time" pattern="yyyy.MM.dd HH:mm:ss" />
+	</tstamp>
+
+	<target name="build all" description="Builds the extension, copies config and makes the .zip file for distribution">
+		
+		<echo message="${current.time}" />      
+		
+		<antcall target="${targetName}" />
+		<antcall target="copy config" />
+		<antcall target="pack distri" />
+
+	</target>
+		
+	<target name="_extension_name_" description="Builds the extension" >
+		
+		
+		<buildnumber file="${dir.defaultsRepo}/${targetName}/build.number"/>
+		
+		<echo message="Version = ${version}-${build.number}" />
+		
+		<delete file="${dir.defaultsRepo}/${targetName}/MANIFEST.MF" />
+
+	    <manifest file="${dir.defaultsRepo}/${targetName}/MANIFEST.MF">
+	        <attribute name="Manifest-Version" value="1.0"/>
+	        <attribute name="Built-By" value="${user.name}"/>
+	        <attribute name="Project" value="${targetName}"/>
+	        <attribute name="Version" value="${version}-${build.number}"/>
+	        <attribute name="Build-Date" value="${current.time}"/>
+	    </manifest>
+
+		<delete file="${dir.extensions}/${targetName}.jar" />
+		
+		<jar destfile="${dir.extensions}/${targetName}.jar">
+			
+			<fileset dir="${dir.classesRoot}" casesensitive="yes">
+				<include name="**/ _source_folder_ /*"/>
+			</fileset>
+			
+		</jar>
+
+	</target>
+	
+	
+	<target name="copy config" description="Copies config files" >
+		
+		<replaceConfig 
+			sourcePath="${dir.configRepo}" fileName="${targetName}.properties" />
+		
+		<replaceFile
+			sourcePath="${dir.configRepo}"  
+			destPath="${dir.dist}/bin"
+			fileName="${targetName}.bat" 
+		/>
+		
+	</target>
+	
+	
+	<target name="pack distri" description="Packes the .jar and config files to a ZIP file" >
+		
+			<delete file="${dir.dist}/${targetName}.zip" />
+			
+			<zip destfile="${dir.dist}/${targetName}.zip"
+				basedir="${dir.dist}"
+				includes="extensions/${targetName}.jar"
+			/>
+			
+	</target>
+	
+
+</project>

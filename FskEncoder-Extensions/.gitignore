@@ -1,0 +1,8 @@
+/target/
+**/*.zip
+**/*.jar
+**/*.pdf
+**/*bak
+**/*.reapeaks
+**/MANIFEST.MF
+/bin/

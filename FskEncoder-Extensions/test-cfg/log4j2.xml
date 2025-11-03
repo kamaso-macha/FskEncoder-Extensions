@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Configuration status="warn">
+
+    <Appenders>
+        <Console name="LogToConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36}()%L) - %msg%n"/>
+        </Console>
+        
+	    <File name="DebugFile" fileName="T:/log/FskEncoder-Debug.log" append="false">
+	      <PatternLayout>
+	        <Pattern>%d{HH:mm:ss.SSS} [%t] %-5level %logger{36}()%L) - %msg%n</Pattern>
+	      </PatternLayout>
+	    </File>
+
+    </Appenders>
+
+    <Loggers>
+    	<!-- 
+        <Logger name="com.mkyong" level="debug" additivity="false">
+            <AppenderRef ref="LogToConsole"/>
+        </Logger>
+         -->
+        
+        <Root level="all">
+            <AppenderRef ref="LogToConsole"/>
+            <AppenderRef ref="DebugFile"/>
+        </Root>
+        
+    </Loggers>
+    
+</Configuration>
