@@ -1,0 +1,242 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------
+%
+\documentclass{article}%
+%
+%----------------------------------------------------------
+% This is a sample document for the standard LaTeX Book Class
+% Class options
+%       --  Body text point size:
+%                        10pt (default), 11pt, 12pt
+%       --  Paper size:  letterpaper (8.5x11 inch, default)
+%                        a4paper, a5paper, b5paper,
+%                        legalpaper, executivepaper
+%       --  Orientation (portrait is the default):
+%                        landscape
+%       --  Printside:   oneside, twoside (default)
+%       --  Quality:     final(default), draft
+%       --  Title page:  titlepage, notitlepage
+%       --  Columns:     onecolumn (default), twocolumn
+%       --  Start chapter on left:
+%                        openright(no, default), openany
+%       --  Equation numbering (equation numbers on right is the default):
+%                        leqno
+%       --  Displayed equations (centered is the default):
+%                        fleqn (flush left)
+%       --  Open bibliography style (closed bibliography is the default):
+%                        openbib
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{book}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side.
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+
+\usepackage{wrapfig}
+%\usepackage{subcaption}
+
+\usepackage{scrextend}
+
+
+% Using the export key with adjustbox, this will load the graphicx package, 
+% and allow you to use its keys as part of \includegraphics.
+
+\usepackage[export]{adjustbox}% http://ctan.org/pkg/adjustbox
+
+\usepackage{enumitem} % for custom labels on enumerations
+
+
+%----------------------------------------------------------
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+\setlength{\parindent}{0pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\title{Fsk Encoder Mpf1Extension user guide}
+\author{\copyright \space The Fsk Encoder project}
+\date{October 2025}
+\maketitle
+\tableofcontents
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\textbf{Introduction}
+\\
+
+The Fsk Encoder application is a usefull tool for SW development in retro computing enviornment.
+\\
+It's capable of converting binary code or data files into FSK encoded sound samples which can be played on the computers sound card. Together with an appropriate interconnection cable the sound output of the host computer can be connected to the sound input of a retro computer system to upload the data.
+\\
+
+The extension (\textit{Z80TrainerExtension}) enables the FskEncoder application to upload data to the \textbf{Multitech Microprofessor-I} (Mpf-1) board. It does the conversion of the source data to sound samples according to the \textit{protocoll} designed by Multitech.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Description}
+
+A so called \textit{protocoll} defines the frequencies and the encoding rules to be used for binary zeros and ones. Please refer to Appendix \ref{z80trainer-encoding-protocol} for detailed information on this topic.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{GUI}
+
+The Z80TrainerExtension's specific GUI panel is shown in the \textit{Target specific information
+area} of the FskEncoder main GUI and offers a way to enter the so called \textit{Program Number} of the upload candidate.
+\\
+
+The \textit{Program Number} is a 4-digit hexadecimal number, used to identify a program on tape in the earlyer days. In FskUploader there is only one file as upload candidate and the \textit{Program Number} can easily be left at the default setting.
+\\
+
+\textbf{Note:}
+\\
+Please consult the Z80-Trainer user manual for more information how to start an upload on the boards monitor system.
+\\
+
+\begin{minipage}{0.50\textwidth}	
+
+	The layout of the panel is shown in the picture on the right..
+
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+
+	\adjustimage{width=\textwidth, valign=r}{./images/Pnl.TargetExtension-Z80TrainerProgramNumber.png}
+
+\end{minipage}
+
+\vspace{1em}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Installation}
+
+The Z80TrainerExtension comes as \textit{Z80TrainerExtension-m.s.b.zip} file containing all the necessary folders and files, which must be unpacked in the installation folder of the FskEncoder application.
+\\
+
+\textbf{Note:} The .zip file contains a version code consisting of
+
+\begin{enumerate}[align=left, left=2em, labelsep=1.5em]
+
+	\item[m] the main line of the build,
+	\item[s] the stream of the build and
+	\item[b] the build number.
+
+\end{enumerate}
+
+The main line of the extension \textbf{must} match the one of the application to function propperly.
+\\
+
+The extension .zip file provides confiruration snippets which must be merged into the FskEncoder configuration to make the extension accessible (see next section). 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Configuration}
+
+After unpacking the .zip file, three new files apear in the installation directories:
+
+\begin{enumerate}[align=left, left=2em]
+
+	\item \texttt{./bin/Z80TrainerExtension.bat} containing the Java \verb|CLASS_PATH| extension and must be merged into the \texttt{./bin/FskEncoder.bat} file,
+	
+	\item \texttt{./cfg/Z80TrainerExtension.properties} containing a template for the configuration of the \texttt{./cfg/Plugin.properties} file.
+	
+	\item And at least the extension file \textit{Z80TrainerExtension.jar} in the \texttt{./extension} directory.
+
+\end{enumerate}
+
+Both, the .bat and .properties files contain instructions on how to merge the extensions into the FskEncoder configuration.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+
+\appendix
+
+\section{Z80-Trainer encoding protocol}
+\label{z80trainer-encoding-protocol}
+
+\begin{verbatim}
+
+			SEL Z80-Trainer tape format
+
+
+			Bit format
+			--------------------------------------------------------------------------------
+			
+			'0'   1 cycle   568,18Hz (1760µs)
+			'1'   1 cycle  1136,36Hz ( 880µs)
+
+			
+			Envelope (Byte format)
+			--------------------------------------------------------------------------------
+			
+			  1 start bit '0'
+			  8 data bits, lsb first (b0 to b7)
+			  3 stop bit '1'
+			
+			
+			File format
+			--------------------------------------------------------------------------------
+			
+			 1.    12'288   bit '1'   Lead sync                       ->	leadIn
+			 
+			 2.         1   bit '0'   Measurement                     ->	syncPatern
+			 3.        16   bit '1'     for period length             +>
+			    
+			 4.         1   envlp     Programm number - high byte	    ->	programNumber
+			 5.         1   envlp     Programm number - low byte      +>
+			          
+			 6.         1   envlp     Start address - high byte       ->	startAddress
+			 7.         1   envlp     Start address - low byte        +>
+			 8.         1   envlp     Start address checksum          +>
+			          
+			 6.         1   envlp     Data block length - high byte   ->	dataBlockLength
+			 7.         1   envlp     Data block length - low byte    +>
+			 8.         1   envlp     Data block length checksum      +>
+			    
+			 9.        16   bit '1'   Idle time for chksum calculation  ->	idleTime
+			    
+			10.         n   envlp     Data block                      ->	dataBlock
+			
+			11.         1   envlp     Data block checksum             +>
+
+\end{verbatim}
+
+%===============================================================================
+
+
+\end{document}

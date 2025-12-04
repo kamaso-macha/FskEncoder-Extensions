@@ -1,0 +1,198 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------
+%
+\documentclass{article}%
+%
+%----------------------------------------------------------
+% This is a sample document for the standard LaTeX Book Class
+% Class options
+%       --  Body text point size:
+%                        10pt (default), 11pt, 12pt
+%       --  Paper size:  letterpaper (8.5x11 inch, default)
+%                        a4paper, a5paper, b5paper,
+%                        legalpaper, executivepaper
+%       --  Orientation (portrait is the default):
+%                        landscape
+%       --  Printside:   oneside, twoside (default)
+%       --  Quality:     final(default), draft
+%       --  Title page:  titlepage, notitlepage
+%       --  Columns:     onecolumn (default), twocolumn
+%       --  Start chapter on left:
+%                        openright(no, default), openany
+%       --  Equation numbering (equation numbers on right is the default):
+%                        leqno
+%       --  Displayed equations (centered is the default):
+%                        fleqn (flush left)
+%       --  Open bibliography style (closed bibliography is the default):
+%                        openbib
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{book}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side.
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+
+\usepackage{wrapfig}
+%\usepackage{subcaption}
+
+\usepackage{scrextend}
+
+
+% Using the export key with adjustbox, this will load the graphicx package, 
+% and allow you to use its keys as part of \includegraphics.
+
+\usepackage[export]{adjustbox}% http://ctan.org/pkg/adjustbox
+
+\usepackage{enumitem} % for custom labels on enumerations
+
+
+%----------------------------------------------------------
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+\setlength{\parindent}{0pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+\title{Fsk Encoder Ihx8ReaderExtension user guide}
+\author{\copyright \space The Fsk Encoder project}
+\date{October 2025}
+\maketitle
+\tableofcontents
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\textbf{Introduction}
+\\
+
+The Fsk Encoder application is a usefull tool for SW development in retro computing enviornment.
+\\
+It's capable of converting binary code or data files into FSK encoded sound samples which can be played on the computers sound card. Together with an appropriate interconnection cable the sound output of the host computer can be connected to the sound input of a retro computer system to upload the data.
+\\
+
+This extension (\textit{Ihx8ReaderExtension}) enables the FskEncoder application to read binary files.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Description}
+
+8-bit Intel Hex formatted files (IHX-8) contain programm code or data in record oriented structure generated eighter by a programm in the used toolchain or as a result of a memory dump i.e. from a EPROM programmer. The details of this strucure is not part of this document. 
+\\
+
+IHX-8 files contain in the data records a address field, which is read and used by the Ihx8readerExtension in two ways:
+\\
+First, the address inforatoin is used to figure out the start address of a memory block and it's size and second, it is used to distinguish different memory blocks in a file. A memory block ends respectively a new one starts if the address of a record is greater than the one of the last record plus the record size.
+\\
+
+Each distinct memoryblock results to a memory region which can be selected for an upload.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{GUI}
+
+The Ihx8ReaderExtension's specific GUI panel is shown in the upper part of the \textit{Target specific information area}. 
+\\
+Because all required information can be obtained from the source file, the only interaction is the slelction of the candidate regions.
+\\
+
+\begin{minipage}{0.50\textwidth}	
+
+	The layout of the panel is shown in the picture beside with an exemple that consists of three memory regions.
+
+\end{minipage}
+\hfill
+\begin{minipage}{0.48\textwidth}
+
+	\adjustimage{width=\textwidth, valign=r}{./images/Pnl.TargetExtension-Ihx8Reader.png}
+
+\end{minipage}
+
+\vspace{1em}
+
+For each memory block of the source file, a region is created and it's metadata is displayd in the related fields \textit{'Start Adr'} - which is taken directly from source file, \textit{'End Adr'} and \textit{'Size'} - which are both calculated based on the file content.
+\\
+
+Each \textit{region} has a \textit{'Select'} checkbox wich controlls wether the region should be candidate of an upload task or not. Multiple selections are treated as subsequent uploads and the upload
+is done automatically one by one in the order of the sections.
+\\
+
+Some target systems cannot handle an upload of multiple regions in one
+single task, they must be restarted for each region. This behaviour is supported
+by FskEncoder by displaying a Yes/No dialogue box for each selected region.
+The upload starts when the [ Yes ] button is clicked and can be skipped by
+clicking the [ No ] button.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Installation}
+
+The Ihx8ReaderExtension comes as \textit{Ihx8ReaderExtension-m.s.b.zip} file containing all the necessary folders and files, which must be unpacked in the installation folder of the FskEncoder application.
+\\
+
+\textbf{Note:} The .zip file contains a version code consisting of
+
+\begin{enumerate}[align=left, left=2em, labelsep=1.5em]
+
+	\item[m] the main line of the build,
+	\item[s] the stream of the build and
+	\item[b] the build number.
+
+\end{enumerate}
+
+The main line of the extension \textbf{must} match the one of the application to function propperly.
+\\
+
+The extension .zip file provides confiruration snippets which must be merged into the FskEncoder configuration to make the extension accessible (see next section). 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Configuration}
+
+After unpacking the .zip file, three new files apear in the installation directories:
+
+\begin{enumerate}[align=left, left=2em]
+
+	\item \texttt{./bin/Ihx8ReaderExtension.bat} containing the Java \verb|CLASS_PATH| extension and must be merged into the \texttt{./bin/FskEncoder.bat} file,
+	
+	\item \texttt{./cfg/Ihx8ReaderExtension.properties} containing a template for the configuration of the \texttt{./cfg/Plugin.properties} file.
+	
+	\item And at least the extension file \textit{Ihx8ReaderExtension.jar} in the \texttt{./extension} directory.
+
+\end{enumerate}
+
+Both, the .bat and .properties files contain instructions on how to merge the extensions into the FskEncoder configuration.
+
+%===============================================================================
+
+
+\end{document}
