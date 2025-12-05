@@ -1,0 +1,48 @@
+The project is split into two parts:
+
+\begin{enumerate}
+
+	\item The FskEncoder-Application, which is only a 'mainframe' and needs at least one input file reader and one target system extension to be ready for work. It can be downloaded from Github \\
+	\verb|https://github.com/kamaso-macha/FskEncoder-Application|.
+	
+	\item The FskEncoder-Extension, which serves the different file reader and target system extensions. This project can also be downloaded from Github using the URL \\
+	\verb|https://github.com/kamaso-macha/FskEncoder-Extensions|.
+
+\end{enumerate}
+
+
+%===============================================================================
+
+\subsection{3pty Libraries}
+
+External (3pty) libraries can be used but it's a good advice not to overdo it. This means, that if there is a low effort to write the code for a functionality, then do it instead of acquiring and installing an external library. 
+\\
+
+3pty libraries \should be imported by Maven. Only if there is no Maven repository for the required library, a manual download into the directory \verb|./lib| is permitted and the library must be manually added to the build path. However, this exception \must be documented in the extension's documentation.
+
+%===============================================================================
+
+\subsection{Default configuration}
+
+The \verb|./cfg| directory contains a default Plugin.properties file which defines the built-in extension modules. It \must be left unchanged when building and distributing extensions. Instead, provide the extension configuration in a file named \verb|<extension_name>.properties|.
+\\
+
+It's also always welcome to add a readme file containing the code needed to patch the Fskencoder.bat file. That's in particular the extension of the class path for the extension itself and where applicable the class path of the used libraries.
+
+%===============================================================================
+
+\subsection{Building}
+
+Apache ANT is used for building.
+\\
+
+For each extension, a buildfile \must be provided in the directory \verb|./build|. This buildfile is responsible for the build of only one specific extension and \should be named after the extension e.g.\\
+\textit{BinReaderExtension.xml} for the BinReaderExtension.
+\\
+
+A second level buildfile \verb|BuildExtensions.xml| in the projects root directory builds \textbf{all} extensions by iterating over the files in the \verb|./build| directory.
+\\
+
+Commonly used properties and macros are put into the file \\
+\verb|ExtensionsBuildSupport.xml|.
+

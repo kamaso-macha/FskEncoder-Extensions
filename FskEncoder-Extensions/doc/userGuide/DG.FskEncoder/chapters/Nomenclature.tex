@@ -1,0 +1,94 @@
+\subsection{Keywords}
+
+The key words \footnote{Taken from IETF RFC 2119, Key words for use in RFCs to Indicate Requirement Levels}
+"MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "MAY", and
+"OPTIONAL" in this document are to be interpreted as:
+
+\begin{enumerate}
+
+	\item MUST This word, or the terms "REQUIRED" or "SHALL", mean that the
+definition is an absolute requirement of the specification.
+
+	\item  MUST NOT This phrase, or the phrase "SHALL NOT", mean that the
+definition is an absolute prohibition of the specification.
+
+	\item  SHOULD This word, or the adjective "RECOMMENDED", mean that there
+may exist valid reasons in particular circumstances to ignore a
+particular item, but the full implications must be understood and
+carefully weighed before choosing a different course.
+
+	\item  SHOULD NOT This phrase, or the phrase "NOT RECOMMENDED" mean that
+there may exist valid reasons in particular circumstances when the
+particular behavior is acceptable or even useful, but the full
+implications should be understood and the case carefully weighed
+before implementing any behavior described with this label.
+
+	\item MAY This word, or the adjective "OPTIONAL", mean that an item is
+truly optional. One vendor may choose to include the item because a
+particular marketplace requires it or because the vendor feels that
+it enhances the product while another vendor may omit the same item.
+An implementation which does not include a particular option MUST be
+prepared to inter-operate with another implementation which does
+include the option, though perhaps with reduced functionality. In the
+same vein an implementation which does include a particular option
+MUST be prepared to inter-operate with another implementation which
+does not include the option (except, of course, for the feature the
+option provides.)
+
+\end{enumerate}
+
+
+%===============================================================================
+
+\subsection{UML grapics}
+
+This document contains some UML class diagrams. In this diagrams are two styles used to draw the classes: 
+
+\begin{itemize}
+
+	\item	First the standard style, white background with attributes and methods defined for all classes / interfaces in the package of interest and
+	
+	\item second the greyed style, grey background and dashed lines, without definition of attributes and methods for all collabrating classes / interfaces of different packages.
+	
+\end{itemize}
+
+The greyed classes / interfaces are included for completeness and to lay out the dependencies between packages.
+\\
+
+Arrows in the relationship of classes and interfaces and their meanign :
+\\
+
+\begin{addmargin}[1cm]{0cm}
+	\begin{tikzpicture}[yscale=-1, y=3ex]
+
+		\draw [-{Latex}]							(0, 1) to ++(1, 0) node [right] {\quad Association};
+		\draw [-{Diamond[open]}]			(0, 2) to ++(1, 0) node [right] {\quad Aggregation};
+		\draw [-{Diamond}]						(0, 3) to ++(1, 0) node [right] {\quad Composition};
+		\draw [-{Latex[open]}]				(0, 4) to ++(1, 0) node [right] {\quad Generalization};
+		\draw [-{Latex[open]},dashed]	(0, 5) to ++(1, 0) node [right] {\quad Realization};
+		\draw [-{Stealth},dashed]			(0, 6) to ++(1, 0) node [right] {\quad Dependency / Usage};
+		
+	\end{tikzpicture}
+\end{addmargin}
+
+\vspace{2ex}
+
+If two classes A and B have a relationship, than
+
+\begin{description}[style=multiline,leftmargin=8em]
+	
+	\item[association] between A and B means that A hold a reference to B so that A can communicate with B,
+	
+	\item[aggregation] means, that A holds one or more refeerences to B,
+	
+	\item[composition] means, that B is part of A in that way, that B can't exist without A. 
+	
+	\item[generalization] is, when B extends A
+	
+	\item[realization] is, when A implements the interface B
+	
+	\item[dependency] means, that A uses B but without keeping a reference to B.
+
+\end{description}
+
+

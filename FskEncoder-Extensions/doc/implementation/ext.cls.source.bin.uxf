@@ -1,0 +1,799 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>8</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>416</x>
+      <y>576</y>
+      <w>392</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>BinReaderExtension
+--
+
+--
+^+ getInputReaderExtensions(StatusMessenger): InputReaderExtensionDao</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>528</x>
+      <y>696</y>
+      <w>176</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>extension.
+InputReaderExtensionFactory
+--
+...
+--
+...
+
+lt=.
+bg=#F0F0F0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>608</x>
+      <y>632</y>
+      <w>24</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>864</x>
+      <y>512</y>
+      <w>176</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>model.
+MemoryMap
+--
+...
+--
+...
+
+lt=.
+bg=#F0F0F0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1104</x>
+      <y>568</y>
+      <w>272</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>BinReader
+--
+- memoryRegionBuilder: BinMemoryRegionBuilder
+--
++ BinReader(MemoryMap)
+^+ loadFile(): boolean</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>544</y>
+      <w>80</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1032</x>
+      <y>544</y>
+      <w>88</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>90.0;60.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>152</x>
+      <y>224</y>
+      <w>328</w>
+      <h>256</h>
+    </coordinates>
+    <panel_attributes>BinReaderControl
+--
+# binReaderGui : BinReaderGui
+# inputReader : Reader
+# memoryMap : MemoryMap
+# workflowEngine : WorkflowEngine
+--
++ BinReaderControl(WorkflowEngine)
+^+ actionPerformed(ActionEvent): void
+^+ createLayout(): JPanel
+^+ focusGained(FocusEvent): void
+^+ focusLost(FocusEvent): void
+ + getGui(): ExtensionGui
+^+ getSelectedMemoryRegions(): List&lt;MemoryRegion&gt;
+ # getStartAddress(): long
+^+ initialize(InputReaderExtensionDao, WorkflowEngine): void
+^+ load(): void
+ - setEndAddress(): void
+^+ setFileName(String): void
+^+ stateChanged(ChangeEvent): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>800</x>
+      <y>616</y>
+      <w>320</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;10.0;380.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>432</x>
+      <y>472</y>
+      <w>24</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=-&gt;</panel_attributes>
+    <additional_attributes>10.0;130.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>864</x>
+      <y>344</y>
+      <w>176</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>model.
+InputReaderExtensionDao
+--
+...
+--
+...
+
+lt=.
+bg=#F0F0F0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1032</x>
+      <y>384</y>
+      <w>168</w>
+      <h>200</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;190.0;230.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>472</x>
+      <y>344</y>
+      <w>408</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>490.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>944</x>
+      <y>416</y>
+      <w>24</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;120.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>472</x>
+      <y>400</y>
+      <w>96</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;100.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>552</x>
+      <y>456</y>
+      <w>24</w>
+      <h>136</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;150.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1104</x>
+      <y>800</y>
+      <w>176</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>/source./
+/Record/
+--
+...
+--
+...
+
+lt=.
+bg=#F0F0F0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1104</x>
+      <y>696</y>
+      <w>176</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>BinRecord
+--
+
+--
++ BinRecord(int, Object)
+^+ parseContent(Object): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1184</x>
+      <y>760</y>
+      <w>24</w>
+      <h>56</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;50.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>808</x>
+      <y>80</y>
+      <w>288</w>
+      <h>216</h>
+    </coordinates>
+    <panel_attributes>BinReaderGui
+--
+# memoryMapController: BinReaderControl
+# memoryBlock: MemoryBlockDescription
+# txtStartAddress: txtStartAddress
+# txtEndAddress: txtEndAddress
+--
++ BinReaderGui(BinReaderControl)
+# createComponents(): JPanel
+# createDetails(): JPanel
+# createHeading(): JPanel
++ createLayout(List&lt;MemoryBlockDescription&gt;): JPanel
+# getSelectedEntries(): List&lt;MemoryBlockDescription
++ getTxtSize(): long
++ getTxtStartAddress(): String
++ setTxtEndAddress(long): void
++ setTxtStartAddress(long): void
+
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>568</x>
+      <y>88</y>
+      <w>176</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>view.gui.
+MemoryMapGui
+--
+...
+--
+...
+
+lt=.
+bg=#F0F0F0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>736</x>
+      <y>120</y>
+      <w>88</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>944</x>
+      <y>288</y>
+      <w>24</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>712</x>
+      <y>416</y>
+      <w>192</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>220.0;10.0;10.0;200.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>792</x>
+      <y>400</y>
+      <w>88</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>232</x>
+      <y>560</y>
+      <w>96</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>ChangeListener
+--
+...
+
+lt=.
+bg=#F0F0F0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>136</x>
+      <y>560</y>
+      <w>80</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>FocusListener
+--
+...
+
+lt=.
+bg=#F0F0F0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>320</x>
+      <y>88</y>
+      <w>176</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>/extension./
+/ReaderExtensionControl/
+--
+...
+--
+...
+
+lt=.
+bg=#F0F0F0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>400</x>
+      <y>152</y>
+      <w>24</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>168</x>
+      <y>472</y>
+      <w>24</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;120.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>272</x>
+      <y>472</y>
+      <w>24</w>
+      <h>112</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;120.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>472</x>
+      <y>272</y>
+      <w>352</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>420.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>472</x>
+      <y>248</y>
+      <w>352</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;420.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>344</x>
+      <y>568</y>
+      <w>48</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>source.
+Reader
+--
+...
+
+lt=.
+bg=#F0F0F0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>472</x>
+      <y>456</y>
+      <w>408</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;490.0;90.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>360</x>
+      <y>472</y>
+      <w>24</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;130.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1216</x>
+      <y>424</y>
+      <w>280</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>BinMemoryRegionBuilder
+--
+
+--
+ + BinMemoryRegionBuilder(ExtendableMemory)
+^+ append(DataRecord): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1280</x>
+      <y>312</y>
+      <w>176</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>/source./
+/MemoryRegionBuilder/
+--
+...
+--
+...
+
+lt=.
+bg=#F0F0F0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1360</x>
+      <y>376</y>
+      <w>24</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;60.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1296</x>
+      <y>504</y>
+      <w>24</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>1304</x>
+      <y>824</y>
+      <w>80</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>source.
+DataRecord
+--
+...
+lt=.
+bg=#F0F0F0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>1416</x>
+      <y>568</y>
+      <w>112</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>model.
+ExtendableMemory
+--
+...
+lt=.
+bg=#F0F0F0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1464</x>
+      <y>504</y>
+      <w>24</w>
+      <h>88</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;90.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1344</x>
+      <y>504</y>
+      <w>64</w>
+      <h>352</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;420.0;60.0;420.0;60.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1336</x>
+      <y>632</y>
+      <w>24</w>
+      <h>216</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-
+bg=#F0F0F0</panel_attributes>
+    <additional_attributes>10.0;250.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1184</x>
+      <y>632</y>
+      <w>24</w>
+      <h>80</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;80.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1272</x>
+      <y>832</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>80.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1280</x>
+      <y>144</y>
+      <w>176</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>model.
+MemoryBlockDescription
+--
+...
+--
+...
+
+lt=.
+bg=#F0F0F0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>1088</x>
+      <y>176</y>
+      <w>208</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>240.0;10.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLNote</id>
+    <coordinates>
+      <x>744</x>
+      <y>672</y>
+      <w>304</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>Note:
+BinReaderControl needs the WFE to set status messages
+
+Ihx8ReaderControl DOES NOT use the WFE!</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLInterface</id>
+    <coordinates>
+      <x>512</x>
+      <y>392</y>
+      <w>96</w>
+      <h>96</h>
+    </coordinates>
+    <panel_attributes>control.
+StatusMessenger
+--
+...
+
+lt=.
+bg=#F0F0F0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>624</x>
+      <y>368</y>
+      <w>176</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>control.
+WorkflowEngine
+--
+...
+--
+...
+
+lt=.
+bg=#F0F0F0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>560</x>
+      <y>400</y>
+      <w>80</w>
+      <h>24</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;.</panel_attributes>
+    <additional_attributes>10.0;10.0;80.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>768</x>
+      <y>800</y>
+      <w>320</w>
+      <h>176</h>
+    </coordinates>
+    <panel_attributes>/ReaderBase/
+--
+ # filter : FileNameExtensionFilter
+ # memoryMap : MemoryMap
+ # operationStatus : String
+ # sourceFileName : String
+ --
+ + ReaderBase(MemoryMap)
+^+ getFileNameExtensionFilter() :FileNameExtensionFilter
+^+ getOperationStatus(): String
+^+ loadFile(): void
+^+ setFilename(String): void
+^+ toString(): String
+ </panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>912</x>
+      <y>632</y>
+      <w>224</w>
+      <h>184</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;210.0;260.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>1328</x>
+      <y>912</y>
+      <w>160</w>
+      <h>64</h>
+    </coordinates>
+    <panel_attributes>valign=center
+halign=center
+Package source.bin</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>

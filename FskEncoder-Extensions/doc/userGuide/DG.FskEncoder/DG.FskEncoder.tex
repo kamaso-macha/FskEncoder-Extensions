@@ -1,0 +1,194 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------
+%
+\documentclass{article}%
+%
+%----------------------------------------------------------
+% This is a sample document for the standard LaTeX Book Class
+% Class options
+%       --  Body text point size:
+%                        10pt (default), 11pt, 12pt
+%       --  Paper size:  letterpaper (8.5x11 inch, default)
+%                        a4paper, a5paper, b5paper,
+%                        legalpaper, executivepaper
+%       --  Orientation (portrait is the default):
+%                        landscape
+%       --  Printside:   oneside, twoside (default)
+%       --  Quality:     final(default), draft
+%       --  Title page:  titlepage, notitlepage
+%       --  Columns:     onecolumn (default), twocolumn
+%       --  Start chapter on left:
+%                        openright(no, default), openany
+%       --  Equation numbering (equation numbers on right is the default):
+%                        leqno
+%       --  Displayed equations (centered is the default):
+%                        fleqn (flush left)
+%       --  Open bibliography style (closed bibliography is the default):
+%                        openbib
+% For instance the command
+%          \documentclass[a4paper,12pt,reqno]{book}
+% ensures that the paper size is a4, fonts are typeset at the size 12p
+% and the equation numbers are on the right side.
+%
+
+% We use a lot of verbatim text. To get a better readability it's required to enlarge the line spacing.
+\linespread{1.02}
+
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+\usepackage{graphicx}
+
+% For rotating figures, tables, etc. including their captions
+\usepackage{rotating}
+
+%\usepackage{pdflscape}
+
+\usepackage{wrapfig}
+%\usepackage{subcaption}
+
+\usepackage{scrextend}
+
+% Using the export key with adjustbox, this will load the graphicx package, 
+% and allow you to use its keys as part of \includegraphics.
+
+\usepackage[export]{adjustbox}% http://ctan.org/pkg/adjustbox
+
+% for arrows
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+% For customization og description list
+\usepackage{enumitem}
+
+% for secttion related numbering of the figures
+\usepackage{chngcntr}
+\counterwithin{figure}{section}
+
+%\usepackage{hyperref}
+%\hypersetup{
+%    colorlinks=true,
+%    linkcolor=cyan,
+%    filecolor=magenta,      
+%    urlcolor=blue,
+%    pdftitle={Overleaf Example},
+%    pdfpagemode=FullScreen,
+%    }
+
+%\urlstyle{same}
+
+\usepackage{xr}
+\usepackage{nameref}
+\usepackage{caption}
+
+%----------------------------------------------------------
+\newtheorem{theorem}{Theorem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{algorithm}[theorem]{Algorithm}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{problem}[theorem]{Problem}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+\setlength{\parindent}{0pt}
+
+\newcommand{\must}{\textbf{must }}
+\newcommand{\mustnot}{\textbf{must not }}
+\newcommand{\required}{\textbf{required }}
+\newcommand{\shall}{\textbf{shall }}
+\newcommand{\shallnot}{\textbf{shall not }}
+\newcommand{\should}{\textbf{should }}
+\newcommand{\shouldnot}{\textbf{should not }}
+\newcommand{\recommended}{\textbf{recommended }}
+\newcommand{\may}{\textbf{may }}
+\newcommand{\optional}{\textbf{optional }}
+
+\newcommand{\private}{\indent\hspace{1.1cm} \textit{Don't use it for extensions.} \\ }
+\newcommand{\public}{\indent\hspace{1.1cm} \textit{Can / must be used for extensions.} \\ }
+\newcommand{\partially}{\indent\hspace{1.1cm} \textit{Some classes can / must be used for extensions.} \\ }
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+
+
+\title{Fsk Encoder Developers Guide}
+\author{\copyright \space The Fsk Encoder project}
+\date{October 2025}
+\maketitle
+
+
+\tableofcontents
+\listoffigures
+
+\newpage
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\textbf{Introduction}
+\\
+
+The Fsk Encoder application is a useful tool for SW development in retro computing environment.
+\\
+It's capable of converting binary code or data files into FSK encoded sound samples which can be played on the computers sound card. With an appropriate interconnection cable, the sound output of the host computer can be connected to the sound input of a retro computer system to upload code or data.
+\\
+
+Also it's extendible to support new target systems or different source file formats.
+\\
+
+This document gives (hopefully) all information needed to set up the Eclipse project for program maintenance and extension development.
+\\
+
+For a better understanding of this document, please refer to the Javadoc of the API classes and interfaces which can be found in the subpackages of the \verb|extension| package.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\section{Project setup}
+\label{Project-setup}
+\input{chapters/ProjectSetup.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Architectural overview}
+\label{Architectural-overview}
+\input{chapters/ArchitecturalOverview.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{API}
+\label{api}
+\input{chapters/Api.tex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\newpage
+\appendix
+
+\section{Nomenclature}
+\label{Nomenclature}
+\input{chapters/Nomenclature.tex}
+
+%===============================================================================
+
+\end{document}

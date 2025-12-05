@@ -1,0 +1,325 @@
+A input reader extension is at least based on four classes:
+
+\begin{enumerate}
+
+	\item a ReaderExtension,
+	\item a ReaderGui
+	\item a ReaderControl and
+	\item a Reader.
+
+\end{enumerate}
+
+By convention, this classes \should be named like 
+
+\begin{enumerate}
+
+	\item \verb|<extension_name>|ReaderExtension,
+	\item \verb|<extension_name>|ReaderGui
+	\item \verb|<extension_name>|ReaderControl and
+	\item \verb|<extension_name>|Reader,
+
+\end{enumerate}
+
+with \verb|<extension_name>| as descriptive name which reflects the format of the input file like \textit{Bin}\, for binary files or \textit{Ihx8}\, for Intel-Hex format.
+\\
+
+A target system extension requires at least the four classes
+
+\begin{enumerate}
+
+	\item Extension,
+	\item ExtensionGui
+	\item ExtensionControl and
+	\item Protocol.
+
+\end{enumerate}
+
+The naming conventions follow the rules of the input reader and \should be like
+
+\begin{enumerate}
+
+	\item \verb|<extension_name>|Extension,
+	\item \verb|<extension_name>|ExtensionGui
+	\item \verb|<extension_name>|ExtensionControl and
+	\item \verb|<extension_name>|Protocol,
+
+\end{enumerate}
+
+
+To build a apropriate memeory model for an extension, a input file reader \should use the classes of the \verb|extension.model| and \verb|extension.source| packages.
+
+%*******************************************************************************
+
+\subsection{Functional interface}
+
+The communication between the main application and an extension is and \must be kept restricted to predefined methods to keep the dependencies between the application and the extension as low as possible. The methods used are discussed later in the deeper explanation of the differen parts of the extensions.
+
+\begin{sidewaysfigure}
+
+		\includegraphics[width=\linewidth,height=\textheight,keepaspectratio]{images/seq.UserInteraction.png}
+
+    \caption{Sequence diagram of user interaction}
+
+    \label{fig:seq-UserInteraction}
+		
+\end{sidewaysfigure}
+
+
+Figure \ref{fig:seq-UserInteraction}\, \textit{\nameref{fig:seq-UserInteraction}}\,on page \pageref{fig:seq-UserInteraction} depicts how the application and the different parts of an extension work together.
+
+
+%*******************************************************************************
+
+\subsection{Extension instantiation}
+\label{extension-instantiation}
+
+Extensions are created in extension factories which are part of the extension itself. Theese extension factories are instantiated by the PluginFactory and the extension factory is responsible for creating the required model, controller and protocol classes.
+
+\begin{sidewaysfigure}
+
+		\includegraphics[width=\linewidth,height=\textheight,keepaspectratio]{images/seq.LoadExtensions.png}
+
+    \caption{Example Sequence diagram of extension load process}
+
+    \label{fig:seq.LoadExtensions}
+		
+\end{sidewaysfigure}
+
+Page \pageref{fig:seq.LoadExtensions} shows the sequence diagram of the creation of an InputReaderExtension and TargetsystemExtension.
+
+
+%*******************************************************************************
+
+\subsection{Target system extension}
+
+A target system extension provides all logic and functionality needed to translate the (binary) source data from the source buffer into the sound samples which can be played on the sound card of the host computer.
+\\
+
+It consists at least of:
+
+\begin{enumerate}
+
+	\item A extension factory, which is the implementation of the interface\\
+	\verb|TargetSystemExtensionFactory| and will be discussed in more detail in the section \textit{\nameref{TargetSystemExtension}}\, below.
+	
+	\item The extension GUI, which \must extend the abstract \verb|ExtensionGui| base class and \must be implemented using Java Swing. It's recommend to use the \textit{miglayout}\, layout manager as the main window does.
+	
+	\item The controller logic (MVC model), which is derived from the abstract \\
+	\verb|TargetSystemExtensionControl|.
+	
+	\item The so called 'protocol', which is capable for the translation process. \\
+	It is an extension of the abstract \verb|BackgroundTaskProtokol| base class and \should use the various encoder classes of the \verb|extension.encoder| package for encoding sound samples.
+
+\end{enumerate}
+
+\begin{sidewaysfigure}
+
+		\includegraphics[width=\linewidth,height=\textheight,keepaspectratio]{images/cls.target.z80trainer.png}
+
+    \caption{Example Z80TrainerExtension class diagram}
+
+    \label{fig:cls-target-z80trainer}
+		
+\end{sidewaysfigure}
+
+Page \pageref{fig:cls-target-z80trainer} shows the class diagram of the Z80-Trainer extension as an example of how an target system extension is to build.
+
+%*******************************************************************************
+
+\subsubsection{TargetSystemExtension}
+\label{TargetSystemExtension}
+
+This factory class is responsible for the creation of the extensions MVC pattern and \must implement the \verb|TargetSystemExtensionFactory| interface. It must create an instance of the ExtensionControl and a \\
+\verb|TargetSystemExtensionDao| which is later on registered in the application.
+\\
+
+Because this class is registered in the \textit{Plugin.properties}\, it \should be named like
+
+\begin{itemize}
+
+	\item[] \verb|<system_name>Extension| what results in a .jar file named
+	\item[] \verb|<system_name>Extension.jar|.
+
+\end{itemize}
+
+\verb|<system_name>| is a descriptive name like \textit{Z80Trainer}\,, \textit{Mpf1}\, or anything else.
+
+
+%*******************************************************************************
+
+\subsubsection{TargetSystemExtensionGui}
+
+Some transmission protocols need additional information which can't be obtained from the input file. This is e.g. the \textit{Program Number}\, of the Z80-Trainer.
+\\
+The TargetSystemExtensionGui is the place where to put those input fields.
+\\
+As said before, it \must be derived from the abstract class \verb|ExtensionGui| and is instantiated later on in the assocciated controller class.
+
+
+%*******************************************************************************
+
+\subsubsection{TargetSystemExtensionControl}
+
+The TargetSystemExtensionControl must extend the abstract class \\
+\verb|TargetSystemExtensionControl|.
+\\
+
+It \should at least
+
+\begin{enumerate}
+
+	\item create an instance of the protocol implementaion,
+	
+	\item create an instance of the related GUI and pass a referenze to itself,
+	
+	\item initialize the GUI with appropriate default values,
+	
+	\item implement the methods of the base class (which are inherited from Java Swing ActionListener) and 
+	
+	\item provide the handle methods for the GUI elements by implementing required Java Swing interfaces (like FocusListener, ChangeListener, ...).
+
+\end{enumerate}
+
+%*******************************************************************************
+
+\subsubsection{TargetSystemProtocol}
+
+The TargetSystemProtocol is derived from the abstract base class \\
+\verb|BackgroundTaskProtokol|  and \must implement the two methods \verb|compile(...)| and \verb|setFullProgress(int)(...)|. \\
+It \may override the \verb|setStartAddress(...)|, \verb|setEndAddress(...)| or \\
+\verb|setSize(...)| methods with its own behavior.
+
+%===============================================================================
+
+\subsection{Input reader}
+
+A input reader provides all functionality needed to read a data file in a specific format and to convert the data read into plain binary bytes. It builds a data buffer which later on is handed over to the protocol part of the target system extension.
+\\
+
+It consists at least of:
+
+\begin{enumerate}
+
+	\item A extension factory which is in fact the implementation of the \\
+	\verb|InputReaderExtensionFactory| interface.
+	
+	\item The Java Swing extension GUI which must extend the \\ 
+	abstract \verb|MemoryMapGui| base class.
+
+	\item The controller logic (MVC model) which is derived from the abstract \\
+	\verb|ReaderExtensionControl| and must implement the two Java Swing interfaces \verb|ChangeListener| and \verb|FocusListener|.
+
+	\item The so called 'reader', which is capable for the translation process. \\
+	It is an extension of the abstract \verb|ReaderBase| base class.
+	
+	\item An extension of the abstract \verb|MemoryRegionBuilder| class which provides the interface to the protocol implementation.
+	
+	\item Optionally an extension of the abstract base class \verb|Record| if the input file format is record structured.
+	
+\end{enumerate}
+
+\begin{sidewaysfigure}
+
+		\includegraphics[width=\linewidth,height=\textheight,keepaspectratio]{./images/cls.ext.source.bin.png}
+
+    \caption{Example BinReaderExtension class diagram}
+
+    \label{fig:clsBinReaderExtension}
+		
+\end{sidewaysfigure}
+
+Page \pageref{fig:clsBinReaderExtension} shows the class diagram of the binary input file reader extension as an example of how an input reader extension is to build .
+
+%*******************************************************************************
+
+\subsubsection{ReaderExtension}
+
+The ReaderExtension class is a factory which creates 
+
+\begin{itemize}
+
+	\item a instance of the \verb|MemoryMap| class,
+	\item a instance of the \verb|Reader| class,
+	\item a instance of the \verb|ReaderControl| class and
+
+	\item a instance of the \verb|InputReaderExtensionDao|, which held references to the previous three classes.
+
+\end{itemize}
+
+The \verb|InputReaderExtensionDao| is returned to the caller \verb|PluginFactory| and further to \verb|WorkflowEngine|.
+\\
+
+This class is registered in the Extension.properties and should be named according to the rules previously stated in section \ref{TargetSystemExtension}  \textit{\nameref{TargetSystemExtension}}\, on page \pageref{TargetSystemExtension}.
+
+
+%*******************************************************************************
+
+\subsubsection{MemoryMapGui}
+
+This base class provides a filed which holds a list of \verb|MemoryBlockDescription| objects. Each object of this list describes a memory block of the source file with the three attributes \textit{START\_ADDRESS}\,, \textit{END\_ADDRESS}\, and \textit{SIZE}. These attributes are required to set up the reader extension GUI.
+
+
+%*******************************************************************************
+
+\subsubsection{ReaderExtensionControl}
+
+The ReaderExtensionControl must extend the abstract class \\
+\verb|ReaderExtensionControl|.
+\\
+
+It \should at least
+
+\begin{enumerate}
+
+	\item create an instance of the reader implementaion,
+	
+	\item create an instance of the related GUI and pass a referenze to itself,
+	
+	\item initialize the GUI with appropriate default values,
+	
+	\item implement the methods of the base class (some inherited from Java Swing ActionListener), 
+	
+	\item provide the handle methods for the GUI elements by implementing required Java Swing interfaces (like FocusListener, ChangeListener, ...) and
+	
+	\item hold an instance of the \verb|MemoryMap| object.
+
+\end{enumerate}
+
+%*******************************************************************************
+
+\subsubsection{Reader}
+
+The Reader implementation \must be derived from the abstract \verb|ReaderBase| class and \must implement the inherited methods. 
+\\
+
+It's responsible for reading and parsing the input file and storing the file content in a \verb|MemoryRegion| object via a \verb|MemoryRegionBuilder| instance.
+
+
+%*******************************************************************************
+
+\subsubsection{MemoryRegionBuilder}
+
+This is the storage container for the data red by the reader implementation. It extends the abstract \verb|MemoryRegionBuilder| and implements it's abstract methods.
+
+
+%*******************************************************************************
+
+\subsubsection{MemoryRegion}
+
+A MemoryRegion represents a bunch of binary data together with it's start address and it's size.
+
+
+%*******************************************************************************
+
+\subsubsection{MemoryMap}
+
+The MemoryMap holds a map of \verb|MemoryRegion| objects. It is responsible for creation of \verb|MemoryBlockDescription| objects used by the GUI and for delivery a specific \verb|MemoryRegion| on request.
+
+
+%*******************************************************************************
+
+\subsubsection{Record}
+
+The input reader philosophy is based on the \textit{Record}\, structure because every input file can be transformed into records. A binary file contains only one record where on the other hand a Intel-Hex formatted file is strictly based on the record structure. To simplify the reading / parsing process and the  data handling, it is strongly adviced to rely on this philosophy.
+
+

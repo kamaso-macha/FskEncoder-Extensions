@@ -33,11 +33,15 @@ package source.bin;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import extension.model.MemoryMap;
 
 /**
  * Responsibilities:<br>
@@ -61,11 +65,16 @@ import org.junit.jupiter.api.Test;
 
 class BinMemoryRegionBuilderTest {
 
+	private static Logger LOGGER = null;
+
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@BeforeAll
 	static void setUpBeforeClass() throws Exception {
+		System.setProperty("log4j.configurationFile","./test-cfg/log4j2.xml");
+		LOGGER = LogManager.getLogger();
 	}
 
 	/**
@@ -94,15 +103,38 @@ class BinMemoryRegionBuilderTest {
 	 */
 	@Test
 	final void testAppend() {
-		fail("Not yet implemented"); // TODO
-	}
+		LOGGER.info("testAppend()");
+		
+		byte[] data = new byte[] { (byte) 0xaa };
+		
+		try {
+			
+			BinRecord record = new BinRecord(0, data);
+			MemoryMap memoryMap = new MemoryMap();
+			
+			BinMemoryRegionBuilder cut = new BinMemoryRegionBuilder(memoryMap);
+			
+			cut.append(record);
+			
+			LOGGER.info("cut: {}",cut.toString());
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	} // testAppend()
 
 	/**
 	 * Test method for {@link source.bin.BinMemoryRegionBuilder#BinMemoryRegionBuilder(extension.model.ExtendableMemory)}.
 	 */
 	@Test
 	final void testBinMemoryRegionBuilder() {
-		fail("Not yet implemented"); // TODO
-	}
+		LOGGER.info("testBinMemoryRegionBuilder()");
+		
+		assertTrue(false);
 
-}
+	} // testBinMemoryRegionBuilder()
+
+	
+} //ssalc

@@ -1,0 +1,376 @@
+%\externaldocument{ProjectSetup}
+
+The FskEncoder follows the linear MVC model where only two interaction paths are possible:
+
+\begin{enumerate}
+
+	\item between View and Control and vice versa,
+	
+	\item between Control and Model and vice versa.
+	
+\end{enumerate}
+
+\begin{figure}[h!]
+
+	\includegraphics[width=\linewidth, keepaspectratio]{./images/ArchitectureOverview.png}
+  \caption{Architecture overview}
+  \label{fig:architecture-overview}
+	
+\end{figure}
+
+\begin{minipage}{0.45\textwidth}
+
+	The right-hand side shows the main window with two regions marked with a red frame.
+	\\
+	The top-one, with the caption \textit{Region}\, is the extension GUI of the input reader extension while the lower one (with the field \textit{File Name}\,) is from target system extension.
+	\\
+	
+	These GUI parts are specific to each extension and are part of the extension packages.
+
+\end{minipage}
+\hfill % pushes the two pages to the margins, leaving a gap
+\begin{minipage}{0.45\textwidth}
+
+	% use adjustimage to get alignment option, 
+	% \includegraphic would push the image out of the top of the page
+	
+	\adjustimage{width=\textwidth, valign=t}{./images/Mainwindow.png}
+	\captionof{figure}{Main widow}
+	
+	% note that \textwidth will be the width of the minipage
+\end{minipage}
+
+\vspace{3 ex}
+
+Figure \ref{fig:architecture-overview}\, \textit{\nameref{fig:architecture-overview}}\, depicts the global structure of the application together with the extensions:
+
+\begin{itemize}
+
+	\item \textbf{View} This is the main window with all GUI elements exept that of the GUI extensions.
+
+	\item \textbf{Control} This is the control for the main window dealing with every thing exept the extension GUIs.
+
+	\item \textbf{Workflow engine} Encapsulates the \textit{business logic}\, of the FskEncoder application and the extensions.
+
+	\item \textbf{Model} The data model of the application. It holds some run-time data and the paroerties of the two configuration files \textit{FskEncoder.properties}\, and \textit{Plugin.properties}\,.
+
+	\item \textbf{Soundplayer} Plays the sound samples on the selected output device with the desired volume.
+
+	\item \textbf{InputReader Extension view} This is the GUI part of the selected input reader extension and \must provide all informations needed to deal with the input format.
+	\\
+	The example in the figure above shows the GUI of the Ihx8InputReaderExtension which can handle more than one memory section in a single file.
+
+	\item \textbf{InputReader Extension control} Extension specific control which must handle all controls of the extension gui.
+
+	\item \textbf{TargetSystem Extension view} This is the GUI part of the selected target system extension and \must provide all informations needed to deal with the specific protocol format.
+
+	\item \textbf{TargetSystem Extension control} Extension specific control which must handle all controls of the extension gui.
+
+	\item \textbf{TargetSystem Extension protocol} The protocol used to encode the binary data and to convert them into sound samples.
+
+\end{itemize}
+
+Each input reader and target system extension must be fully decoupled from the FskEncoder source (except the interface / base classes needed) and \shall only interact with the application via the provided interfaces.
+\\
+
+A deep dive into how to build those extensions is discussed in the section \ref{extension-instantiation}  \textit{\nameref{extension-instantiation}}\, on page \pageref{extension-instantiation}.
+\\
+
+By rule, the application itself and each extension lives in it's own .jar file which must contain all the necessary classes but no 3pty libraries (please refer to section \ref{Project-setup}   \textit{\nameref{Project-setup}}\, on page \pageref{Project-setup} for library management).
+
+%===============================================================================
+
+\subsection{Project structure}
+
+This section gives an explanation of the different packages and their purposes. The classes are only discussed if there is a real need for the understanding of building extensions. Most of this information can be found in the JavaDoc of the project.
+\\
+
+For each package is specified if its classes and interfaces should not, can or must be used in extensions.
+\\
+
+\subsection{Application part}
+
+The following source folder / packages and their contents currently exist:
+
+\begin{samepage}
+	\begin{addmargin}[1cm]{0cm}
+		\begin{verbatim}
+
+    .
+    +---src (folder)
+         +---application
+         +---control
+         |   +---gui
+         |   +---validator
+         +---extension
+         |   +---control
+         |   +---encoder
+         |   +---factory
+         |   +---model
+         |   +---protocol
+         |   +---sond
+         |   +---source
+         |   +---target
+         |   +---view
+         +---model
+         +---protocol
+         +---sound
+         +---view
+             +---gui
+						
+		\end{verbatim}
+	\end{addmargin}
+\end{samepage}
+
+
+%===============================================================================
+
+\subsection{Packages of the 'src' folder}
+
+%*******************************************************************************
+
+\subsubsection{application}
+
+\private
+
+Contains the application class together with classes to handle cli parameter, some 'hard coded' properties and for program exit.
+
+%*******************************************************************************
+
+\subsubsection{control}
+
+\private
+
+Contains the controller logic for work-flow and background task execution.
+
+
+%*******************************************************************************
+
+\subsubsection{control.gui}
+
+\private
+
+Held all controllers for the basic GUI panels.
+
+%*******************************************************************************
+
+\subsubsection{control.validator}
+
+\private
+
+Contains various validators for the GUI elements.
+
+%*******************************************************************************
+
+\subsubsection{extension}
+
+\public
+
+This package provides the logic needed for extending the application. A deeper discussion can be found in section \ref{api}  \nameref{api} \, on page \pageref{api}.
+\\
+The content of this package is packed in a seperate file \textit{FskEncoderExtension.jar} \, during build process and \must be used as library in the extension part.
+
+
+%*******************************************************************************
+
+\subsubsection{extension.control}
+
+\public
+
+Contains classes and interfaces needed for extension controllers.
+
+
+%*******************************************************************************
+
+\subsubsection{extension.encoder}
+
+\public
+
+This is more a library of basic functionallity and contains all (currently) necessary classes for sound sample generation.
+\\
+
+Protocol specific encoders \must be placed in the package of the target system extension protocol. 
+\\
+
+Please refer to the \textit{Mpf1BitEncoder}\, class in the \textit{Microprecessor 1}\, extension to learn how to use the basic methods to build a complex protocol.
+
+
+%*******************************************************************************
+
+\subsubsection{extension.factory}
+
+\public
+
+This package is the place for the base classes and interfaces needed to build a extension factory.
+
+
+%*******************************************************************************
+
+\subsubsection{extension.model}
+
+\public
+
+This package contains all classes and interfaces of the data model needed to implement a input reader extension.
+
+
+%*******************************************************************************
+
+\subsubsection{extension.protocol}
+
+\public
+
+This package contains all classes and interfaces needed to implement a target system extension protocol.
+
+
+%*******************************************************************************
+
+\subsubsection{extension.sound}
+
+\partially
+
+This package contains the definition of the audio format of the FskEncoder soundplayer and is required in an extension protocol.
+
+
+%*******************************************************************************
+
+\subsubsection{extension.source}
+
+\public
+
+This package contains all classes and interfaces needed to implement a input reader extension.
+
+
+%*******************************************************************************
+
+\subsubsection{extension.target}
+
+\public
+
+This package is currently empty.
+
+
+%*******************************************************************************
+
+\subsubsection{extension.view.gui}
+
+\public
+
+Holds all base classes for extension guis.
+
+
+%*******************************************************************************
+
+\subsubsection{model}
+
+\private
+
+This package contains all classes of the internal data model.
+
+
+%*******************************************************************************
+
+\subsubsection{protocol}
+
+\public
+
+This package is currently empty.
+
+
+%*******************************************************************************
+
+\subsubsection{sound}
+
+\private
+
+All stuff around the sound player.
+
+
+%*******************************************************************************
+
+\subsubsection{view}
+
+Currently empty.
+
+
+%*******************************************************************************
+
+\subsubsection{view.gui}
+
+\private
+
+Contains all classes needed for the main window and the basic GUI panels.
+
+
+%===============================================================================
+
+\subsection{Extensions part}
+
+In the extension part are all packages located, which are related to extensions. They \must be strictly kept apart of the application part!
+
+The following source folder / packages and their contents currently exist:
+
+\begin{samepage}
+	\begin{addmargin}[1cm]{0cm}
+		\begin{verbatim}
+
+    .
+    +---src (folder)
+        +---source
+        |   +---bin
+        |   +---ihx
+        |       +---x8
+        +---target
+            +---microprofessor1
+            +---z80trainer
+						
+		\end{verbatim}
+	\end{addmargin}
+\end{samepage}
+
+
+%===============================================================================
+
+\subsubsection{source.bin}
+
+\private
+
+Contains all sources for the binary input file reader.
+
+
+%*******************************************************************************
+
+\subsubsection{source.ihx}
+
+\partially
+
+Contains all common used sources for the Intel-Hex input file reader.
+
+
+%*******************************************************************************
+
+\subsubsection{source.x8}
+
+\private
+
+Contains the 8-bit specific implementation of the Ihx-reader extension.
+
+
+%*******************************************************************************
+
+\subsubsection{target.microprofessor1}
+
+\private
+
+Contains the classes of the Microprofessor 1 extension.
+
+
+%*******************************************************************************
+
+\subsubsection{target.z80trainer}
+
+\private
+
+Contains the classes of the Z80 trainer extension.
+
+
+

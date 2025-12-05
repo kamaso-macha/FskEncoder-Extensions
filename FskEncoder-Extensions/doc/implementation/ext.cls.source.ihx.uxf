@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="15.0.0">
+  <zoom_level>9</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>891</x>
+      <y>612</y>
+      <w>99</w>
+      <h>162</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;enum&gt;&gt;
+IhxRecordType
+--
+DATA
+EOF
+EXT_SEG
+START_SEG
+EXT_LIN
+START_LIN
+  
+UNKNOWN
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>918</x>
+      <y>819</y>
+      <w>180</w>
+      <h>72</h>
+    </coordinates>
+    <panel_attributes>valign=center
+halign=center
+Package source.ihx</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>585</x>
+      <y>405</y>
+      <w>225</w>
+      <h>153</h>
+    </coordinates>
+    <panel_attributes>IhxRecord
+--
+# recordNumber : int
+# offset : int
+# dataBuffer : byte[]
+--
+ + Record(int)
+^+ getData(): byte[]
+^+ getRecordNumber(): int
+^+ getOffset(): long
+/ # parseContent(Object): void(</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>693</x>
+      <y>549</y>
+      <w>27</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;70.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>369</x>
+      <y>72</y>
+      <w>306</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>IhxParser
+--
+# lexer : IhxLexer
+# memoryRegionBuilder : MemoryRegionBuilder
+--
+ + IhxParser(IhxLexer, MemoryRegionBuilder)
+ + parse(): void</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>864</x>
+      <y>81</y>
+      <w>90</w>
+      <h>63</h>
+    </coordinates>
+    <panel_attributes>IhxLexer
+--
+
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>351</x>
+      <y>270</y>
+      <w>198</w>
+      <h>81</h>
+    </coordinates>
+    <panel_attributes>/extension.source./
+/MemoryRegionBuilder/
+--
+...
+--
+...
+
+lt=.
+bg=#F0F0F0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>666</x>
+      <y>99</y>
+      <w>216</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;220.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>441</x>
+      <y>180</y>
+      <w>27</w>
+      <h>108</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;10.0;100.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>630</x>
+      <y>180</y>
+      <w>27</w>
+      <h>243</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;250.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>837</x>
+      <y>234</y>
+      <w>189</w>
+      <h>153</h>
+    </coordinates>
+    <panel_attributes>/extension.source./
+/Lexer&lt;IhxRecord&gt;/
+--
+# t : T
+# constructor : Constructor&lt;?&gt;
+# reader : BufferedReader
+# recordIndex : int
+--
+ + Lexer(Constructor&lt;?&gt;)
+ + setFile(String): void
+ + getRecord(): T
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>900</x>
+      <y>135</y>
+      <w>27</w>
+      <h>117</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;110.0;10.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>747</x>
+      <y>270</y>
+      <w>108</w>
+      <h>153</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;-</panel_attributes>
+    <additional_attributes>10.0;150.0;100.0;10.0</additional_attributes>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>603</x>
+      <y>612</y>
+      <w>216</w>
+      <h>288</h>
+    </coordinates>
+    <panel_attributes>/extension.source./
+/Record/
+--
+# HEX : int
+# RECORD_MARK : String
+# recordLength : byte
+# recordType : IhxRecordType
+# chkeckSum : int
+--
+ + IhxRecord(int, String)
+ + getRecordLength()
+ + getRecordType()
+ # ascii2bin(String)
+ # checksum()
+ # infoOrData(byte[])
+ # offset(byte[])
+^# parseContent(Object)
+ # recordLength(byte[])
+ # recordMark(String)
+ # rectype(byte[])
+lt=.
+bg=#F0F0F0</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>Relation</id>
+    <coordinates>
+      <x>810</x>
+      <y>666</y>
+      <w>99</w>
+      <h>27</h>
+    </coordinates>
+    <panel_attributes>lt=&lt;&lt;&lt;&lt;&lt;-</panel_attributes>
+    <additional_attributes>10.0;10.0;90.0;10.0</additional_attributes>
+  </element>
+</diagram>
