@@ -12,12 +12,12 @@ MaxPos.y=-1
 NormalPos.left=4
 NormalPos.top=32
 NormalPos.right=1327
-NormalPos.bottom=817
+NormalPos.bottom=856
 Class=LaTeXView
 Document=UG.Z80TrainerExtension.tex
 
 [Frame0_View0,0]
-TopLine=219
+TopLine=135
 Cursor=8786
 
 [SessionInfo]
