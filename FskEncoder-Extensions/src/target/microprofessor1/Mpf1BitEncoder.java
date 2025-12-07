@@ -51,27 +51,30 @@ import extension.encoder.WaveCycleEncoder;
  * Description:<br>
  * 	Provides the sound samples needed to encode a single bit according the MFP-I specification:<br>
  * 
- * <blockquote><tt>
+ * <blockquote><tt><pre>
+ * 
+ *    Bit encoding rules:
+ *    -------------------
  * 
  *    '0'     8 cycles 2000Hz   ( 8 * 0,5 ms = 4 ms )
  *          + 2 cycles 1000Hz   ( 2 * 1,0 ms = 2 ms )
- *          
+ * 
  *          |                               ^           |
- *         _|�|_|�|_|�|_|�|_|�|_|�|_|�|_|�|_|��|__|��|__|�
- *          |0   1   2   3   4   5   6   7   0     1    | 
- *    
- *            
+ *         _|"|_|"|_|"|_|"|_|"|_|"|_|"|_|"|_|""|__|""|__|"
+ *          |0   1   2   3   4   5   6   7   0     1    |
+ * 
+ * 
  *    '1'     4 cycles 2000Hz   ( 4 * 0,5 ms = 2 ms )
  *          + 4 cycles 1000Hz   ( 4 * 1,0 ms = 4 ms )
- *          
+ *   
  *          |               ^                       |
- *         _|�|_|�|_|�|_|�|_|��|__|��|__|��|__|��|__|�
- *          |0   1   2   3   0     1     2     3    | 
- *    
- *    
- *      1 bit equals 6ms
+ *         _|"|_|"|_|"|_|"|_|""|__|""|__|""|__|""|__|"
+ *          |0   1   2   3   0     1     2     3    |
  * 
- * </tt></blockquote>
+ * 
+ *      1 bit equals 6ms
+ *    <br>
+ * </pre></tt></blockquote>
  * 
  * <br>
  * 	The created sound samples are stored in two byte buffers, one for each bit value.

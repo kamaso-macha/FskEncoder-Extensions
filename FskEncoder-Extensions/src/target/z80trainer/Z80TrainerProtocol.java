@@ -57,7 +57,6 @@ import extension.sound.FskAudioFormat;
  * 	<li>DefaultChecksumCalculator</li>
  * 	<li>SilenceEncoder</li>
  * 	<li>WaveCycleEncoder</li>
- * 	<li>Mpf1BitEncoder</li>
  * 	<li>Encoder</li>
  * </ul>
  * 
@@ -66,6 +65,48 @@ import extension.sound.FskAudioFormat;
  * Implements the Z80 TGrainer specific protocol required to convert a data buffer
  * into the correct sound samples that can be loaded into the target system. 
  * 
+ * <blockquote><tt><pre>
+    Bit format
+    --------------------------------------------------------------------------------
+    
+    '0'   1 cycle   568,18Hz (1760µs)
+    '1'   1 cycle  1136,36Hz ( 880µs)
+
+    
+    Envelope (Byte format)
+    --------------------------------------------------------------------------------
+    
+      1 start bit '0'
+      8 data  bits, lsb first (b0 to b7)
+      3 stop  bit '1'
+    
+    
+    File format
+    --------------------------------------------------------------------------------
+    
+     1.    12'288   bit '1'   Lead sync                         ->  leadIn
+     
+     2.         1   bit '0'   Measurement                       ->  syncPatern
+     3.        16   bit '1'     for period length               +>
+        
+     4.         1   envlp     Program number - high byte       ->  programNumber
+     5.         1   envlp     Program number - low byte        +>
+              
+     6.         1   envlp     Start address - high byte         ->  startAddress
+     7.         1   envlp     Start address - low byte          +>
+     8.         1   envlp     Start address checksum            +>
+              
+     6.         1   envlp     Data block length - high byte     ->  dataBlockLength
+     7.         1   envlp     Data block length - low byte      +>
+     8.         1   envlp     Data block length checksum        +>
+        
+     9.        16   bit '1'   Idle time for chksum calculation  ->  idleTime
+        
+    10.         n   envlp     Data block                        ->  dataBlock
+    
+    11.         1   envlp     Data block checksum               +>
+
+ * </pre></tt></blockquote>
  * <p>
  * @author Stefan
  *
@@ -75,47 +116,7 @@ public class Z80TrainerProtocol extends BackgroundTaskProtokol {
 
 	private Logger logger = LogManager.getLogger(Z80TrainerProtocol.class.getName());
 	
-	/*
-			Bit format
-			--------------------------------------------------------------------------------
-			
-			'0'   1 cycle   568,18Hz (1760�s)
-			'1'   1 cycle  1136,36Hz ( 880�s)
-
-			
-			Envelope (Byte format)
-			--------------------------------------------------------------------------------
-			
-			  1 start bit '0'
-			  8 data bits, lsb first (b0 to b7)
-			  3 stop bit '1'
-			
-			
-			File format
-			--------------------------------------------------------------------------------
-			
-			 1.    12'288   bit '1'   Lead sync							->	leadIn
-			 
-			 2.         1   bit '0'   Measurement						->	syncPatern
-			 3.        16   bit '1'     for period length				+>
-			    
-			 4.         1   envlp     Programm number - high byte		->	programNumber
-			 5.         1   envlp     Programm number - low byte		+>
-			          
-			 6.         1   envlp     Start address - high byte			->	startAddress
-			 7.         1   envlp     Start address - low byte			+>
-			 8.         1   envlp     Start address checksum			+>
-			          
-			 6.         1   envlp     Data block length - high byte		->	dataBlockLength
-			 7.         1   envlp     Data block length - low byte		+>
-			 8.         1   envlp     Data block length checksum		+>
-			    
-			 9.        16   bit '1'   Idle time for chksum calculation	->	idleTime
-			    
-			10.         n   envlp     Data block						->	dataBlock
-			
-			11.         1   envlp     Data block checksum				+>
-
+	/**
 	 */
 	
 	/*

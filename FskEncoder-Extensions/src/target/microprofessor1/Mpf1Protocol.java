@@ -65,6 +65,76 @@ import extension.sound.FskAudioFormat;
  * Implements the MPF-1 specific protocol required to convert a data buffer
  * into the correct sound samples that can be loaded into the target system. 
  * 
+ * <blockquote><tt><pre>
+
+		Multitech Microprofessor MPF-I tape format
+
+
+		Bit format
+		--------------------------------------------------------------------------------
+		
+		'0'     8 cycles 2000Hz   ( 8 * 0,5 ms = 4 ms )
+		      + 2 cycles 1000Hz   ( 2 * 1,0 ms = 2 ms )
+		      
+		      |                               ^           |
+		     _|"|_|"|_|"|_|"|_|"|_|"|_|"|_|"|_|""|__|""|__|"
+		      |0   1   2   3   4   5   6   7   0     1    | 
+		
+		        
+		'1'     4 cycles 2000Hz   ( 4 * 0,5 ms = 2 ms )
+		      + 4 cycles 1000Hz   ( 4 * 1,0 ms = 4 ms )
+		      
+		      |               ^                       |
+		     _|"|_|"|_|"|_|"|_|""|__|""|__|""|__|""|__|"
+		      |0   1   2   3   0     1     2     3    | 
+		
+		
+		  1 bit equals 6ms
+		
+		
+		
+		Envelope
+		--------------------------------------------------------------------------------
+		
+		  1 start bit '0'
+		  8 data bits, lsb first (b0 to b7)
+		  1 stop bit '1'
+		
+		
+		
+		Byte and Word format
+		--------------------------------------------------------------------------------
+		  
+		Word:		Lo-byte,  Hi-byte
+		Byte:		Lo-nible, Hi-nible
+		
+		E.g. 
+		
+		The	WORD 		0x1234		0001.0010 : 0011.0100	(b7 ... b0 : b7 ... b0) 
+		is send as		  4321		0010.1100 : 0100.1000	(b0 ... b7 : b0 ... b7)
+
+		
+		
+		File format
+		--------------------------------------------------------------------------------
+		
+		1.    4000 cycles 1000Hz Lead sync
+		
+		2.    2 envlp   filename
+		3.    2 envlp   starting address
+		4.    2 envlp   ending address
+		
+		5.    1 envlp   checksum of datablock start adr to end adr
+		
+		6.    4000 cycles 2000Hz Mid sync
+		
+		7.    n envlp   datablock
+		
+		8.    4000 cycles 2000Hz Tail sync
+		
+
+ * </pre></tt></blockquote>
+ *
  * <p>
  * @author Stefan
  *
@@ -74,76 +144,6 @@ public class Mpf1Protocol extends BackgroundTaskProtokol {
 
 	private Logger logger = LogManager.getLogger(Mpf1Protocol.class.getName());
 	
-	/*
-
-			Multitech Microprofessor MPF-I tape format
-
-
-			Bit format
-			--------------------------------------------------------------------------------
-			
-			'0'     8 cycles 2000Hz   ( 8 * 0,5 ms = 4 ms )
-			      + 2 cycles 1000Hz   ( 2 * 1,0 ms = 2 ms )
-			      
-			      |                               ^           |
-			     _|�|_|�|_|�|_|�|_|�|_|�|_|�|_|�|_|��|__|��|__|�
-			      |0   1   2   3   4   5   6   7   0     1    | 
-			
-			        
-			'1'     4 cycles 2000Hz   ( 4 * 0,5 ms = 2 ms )
-			      + 4 cycles 1000Hz   ( 4 * 1,0 ms = 4 ms )
-			      
-			      |               ^                       |
-			     _|�|_|�|_|�|_|�|_|��|__|��|__|��|__|��|__|�
-			      |0   1   2   3   0     1     2     3    | 
-			
-			
-			  1 bit equals 6ms
-			
-			
-			
-			Envelope
-			--------------------------------------------------------------------------------
-			
-			  1 start bit '0'
-			  8 data bits, lsb first (b0 to b7)
-			  1 stop bit '1'
-			
-			
-			
-			Byte and Word format
-			--------------------------------------------------------------------------------
-			  
-			Word:		Lo-byte,  Hi-byte
-			Byte:		Lo-nible, Hi-nible
-			
-			E.g. 
-			
-			The	WORD 		0x1234		0001.0010 : 0011.0100	(b7 ... b0 : b7 ... b0) 
-			is send as		  4321		0010.1100 : 0100.1000	(b0 ... b7 : b0 ... b7)
-
-			
-			
-			File format
-			--------------------------------------------------------------------------------
-			
-			1.    4000 cycles 1000Hz Lead sync
-			
-			2.    2 envlp   filename
-			3.    2 envlp   starting address
-			4.    2 envlp   ending address
-			
-			5.    1 envlp   checksum of datablock start adr to end adr
-			
-			6.    4000 cycles 2000Hz Mid sync
-			
-			7.    n envlp   datablock
-			
-			8.    4000 cycles 2000Hz Tail sync
-			
-
-	 */
-
 	/*
 	 * FSK and envelope parameter definition
 	 */
